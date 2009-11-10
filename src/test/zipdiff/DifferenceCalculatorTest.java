@@ -32,20 +32,15 @@ import junit.framework.TestCase;
 public class DifferenceCalculatorTest extends TestCase {
     private static String ENTRYA = "A";
 	private static String ENTRYB = "B";
-	private static String ENTRYC = "C";
 	private static String ENTRY_CVS = "CVS/Root";
     public static final String SYSTEM_TMP_DIR_PROPERTY = "java.io.tmpdir";
 	public static final String TEST_DIR_POSTFIX = File.separator + "UnitTestsDifferenceCalculatorTest";
 	private static String testDirPathName;
 	// naming convention The Capital letter denotes the entry so A will be the same as A
 	// OneEntry denotes that the jar has one entry 
-	private static String testJarOneEmpty;
-	private static String testJarTwoEmpty;
 	private static String testJarOneEntryA1Filename;
 	private static String testJarOneEntryA2Filename;
 	private static String testJarOneEntryB1Filename;
-	private static String testJarTwoEntryAB1Filename;
-	private static String testJarTwoEntryAC2Filename;
 	private static String testJarOneEntryAContentsChangedFilename;
 	{
 		testDirPathName = 
@@ -53,14 +48,9 @@ public class DifferenceCalculatorTest extends TestCase {
 		if(testDirPathName == null) {
 			testDirPathName = File.separator + "temp" + TEST_DIR_POSTFIX;
 		}	
-		testJarOneEmpty = testDirPathName + File.separator + "testJarOneEmpty.jar";
-		testJarTwoEmpty = testDirPathName + File.separator + "testJarTwoEmpty.jar";
 		testJarOneEntryA1Filename = testDirPathName + File.separator + "testJarOneEntryA1Filename.jar";
 		testJarOneEntryA2Filename = testDirPathName + File.separator + "testJarOneEntryA2Filename.jar";
 		testJarOneEntryB1Filename = testDirPathName + File.separator + "testJarOneEntryB1Filename.jar";
-		testJarTwoEntryAB1Filename = testDirPathName + File.separator + "testJarTwoEntryAB1Filename.jar";
-		testJarTwoEntryAB1Filename = testDirPathName + File.separator + "testJarTwoEntryAB1Filename.jar";
-		testJarTwoEntryAC2Filename = testDirPathName + File.separator + "testJarTwoEntryAC2Filename.jar";
 		testJarOneEntryAContentsChangedFilename = testDirPathName + File.separator + "testJarOneEntryAContentsChangedFilename.jar";
 	}
 
