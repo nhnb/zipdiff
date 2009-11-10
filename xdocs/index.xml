@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<!-- $Header: /cvsroot/zipdiff/zipdiff/xdocs/index.xml,v 1.19 2004/06/30 07:35:24 sullis Exp $ -->
+<document>
+
+  <properties>
+    <title>Welcome</title>
+  </properties>
+
+  <body>
+
+  <section name="Overview">
+    <p>
+    Use the zipdiff tool when you need to compare the contents of two zip files.
+    It is equally suited for comparing jar files, EAR files, WAR files or RAR files.
+    </p>
+    <p>
+    Run it standalone or as an 
+    <a href="http://ant.apache.org/">Ant</a> task.
+    The tool supports three output formats: plain text, XML, and <a href="sample-output.html">HTML</a>.
+    </p>
+    <p>
+    zipdiff is written in <a href="http://java.sun.com/">Java</a>
+    </p>
+    <p>
+    The current version is 0.4
+    </p>
+  </section>
+
+  <section name="Command line">
+    <source>
+    java -jar zipdiff.jar -file1 foo.zip -file2 bar.zip [ -outputfile diffs.html ] [ -comparetimestamps ] [ -comparecrcvalues ]
+    </source>
+  </section>
+  
+  <section name="Using the Ant zipdiff task">
+    <source>
+&lt;taskdef name="zipdiff" classname="zipdiff.ant.ZipDiffTask"/&gt;
+
+&lt;zipdiff filename1="foo.zip" 
+    filename2="foo2.zip"
+    ignoreTimestamps="true"
+    compareCRCValues="true"
+    destfile="zipdiff.xml"&gt;
+&lt;/zipdiff&gt;
+    </source>
+  </section>
+
+  <section name="Powered By">
+   <p>
+	   <a href="http://sourceforge.net">
+		   <img src="http://sourceforge.net/sflogo.php?group_id=75092&amp;type=1"
+			width="88" height="31" border="0" alt="SourceForge.net Logo"/></a>
+   </p>
+  </section>
+  </body>
+</document>

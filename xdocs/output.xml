@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!-- $Header: /cvsroot/zipdiff/zipdiff/xdocs/output.xml,v 1.1 2004/06/27 22:02:53 sullis Exp $ -->
+<document>
+
+  <properties>
+    <title>Sample output</title>
+  </properties>
+
+  <body>
+
+  <section name="Sample output">
+    <p>
+    <li><a href="sample-output.html">HTML output</a></li>
+    </p>
+  </section>
+
+  </body>
+  
+</document>

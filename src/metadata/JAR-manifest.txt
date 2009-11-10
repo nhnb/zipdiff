@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Created-By:  Sean C. Sullivan
+Class-Path:  commons-cli-1.0.jar
+Main-Class: zipdiff.Main

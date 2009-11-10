@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!-- $Header: /cvsroot/zipdiff/zipdiff/xdocs/tools.xml,v 1.3 2004/07/04 00:42:27 sullis Exp $ -->
+<document>
+
+  <properties>
+    <title>Tools and libraries</title>
+  </properties>
+
+  <body>
+
+  <section name="Tools used by this project">
+    <p>
+    <ul>
+    <li><a href="http://jakarta.apache.org/commons/cli/">Jakarta Commons CLI</a></li>
+    <li><a href="http://ant.apache.org/">Apache Ant</a></li>
+    <li><a href="http://maven.apache.org/">Apache Maven</a></li>
+    <li><a href="http://www.eclipse.org/">Eclipse</a></li>
+    <li><a href="http://www.junit.org/">JUnit</a></li>
+    <li><a href="http://pmd.sourceforge.net/">PMD</a></li>
+    <li><a href="http://www.cvshome.org/">CVS</a></li>
+    <li><a href="http://www.tortoisecvs.org/">TortoiseCVS</a></li>
+    <li><a href="http://www.vim.org/">Vim</a></li>
+    </ul>
+    </p>
+  </section>
+  
+  </body>
+  
+</document>

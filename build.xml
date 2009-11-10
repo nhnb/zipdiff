@@ -1,0 +1,149 @@
+<!-- $Header: /cvsroot/zipdiff/zipdiff/build.xml,v 1.14 2004/06/29 00:23:49 sullis Exp $ -->
+<!-- ###################################################### -->
+<!-- This is an Ant build file                              -->
+<!--                                                        -->
+<!-- For details, see http://ant.apache.org/                -->
+<!-- ###################################################### -->
+
+<project name="zipdiffProject" default="help" basedir=".">
+    <property file="${user.home}/build.properties" />
+    <property name="src.dir" value="${basedir}/src"/>
+    <property name="java.src.dir" value="${src.dir}/main"/>
+    <property name="test.src.dir" value="${src.dir}/test"/>
+    <property name="lib.dir" value="${basedir}/lib"/>
+    <property name="metadata.dir" value="${src.dir}/metadata" />
+    <property name="build.dir" value="${basedir}/build"/>
+    <property name="javadoc.build.dir" value="${build.dir}/doc/api"/>
+    <property name="classes.dir" value="${build.dir}/classes"/>
+    <property name="distrib.name" value="zipdiff-0.4"/>
+    <property name="distrib.jar.filename" value="zipdiff.jar"/>
+    <property name="junit.jar" value="${basedir}/lib/junit.jar"/>
+    <property name="junit.reports.dir" value="${basedir}/junit-reports"/>
+
+    <path id="project.class.path">
+       <pathelement location="lib/commons-cli-1.0.jar" />
+    </path>
+    
+<!-- ###################################################### -->
+<!-- target definitions                                     -->
+<!-- ###################################################### -->
+
+    <target name="help">
+        <echo message="ant -projecthelp will display all targets" />
+    </target>
+    
+    <target name="all" depends="init, build, docs, distrib"/>
+
+    <target name="init">
+        <mkdir dir="${build.dir}" />
+        <mkdir dir="${javadoc.build.dir}" />
+        <mkdir dir="${classes.dir}" />
+        <mkdir dir="${junit.reports.dir}" />
+    </target>
+
+    <target name="clean">
+        <delete dir="${classes.dir}" />
+        <delete dir="${build.dir}" />
+    </target>
+
+    <target name="javadocs" depends="init" >
+        <javadoc packagenames="zipdiff.*"
+                   sourcepath="${java.src.dir}"
+                   defaultexcludes="yes"
+                   destdir="${javadoc.build.dir}"
+                   author="true"
+                   version="true"
+                   use="true"
+                   windowtitle="zipdiff" />
+    </target>
+    
+    <target name="docs" depends="init, javadocs"/>
+
+    <target name="project.jarfile" depends="init, build">
+        <jar destfile="${build.dir}/${distrib.jar.filename}"
+            manifest="${metadata.dir}/JAR-manifest.txt"
+            compress="true">
+            <fileset dir="${classes.dir}"
+                includes="zipdiff/**/*.class" />
+        </jar>
+    </target>
+
+    <target name="build" depends="init">
+        <javac  deprecation="on"
+            destdir="${classes.dir}"
+            includeAntRuntime="yes"
+            classpathref="project.class.path"
+            debug="on">
+            <src path="${java.src.dir}" />
+        </javac>
+    </target>
+    
+    <target name="buildTest" depends="init, build">
+        <javac  deprecation="on"
+            destdir="${classes.dir}"
+            includeAntRuntime="yes"
+            classpathref="project.class.path"
+            debug="on">
+            <src path="${test.src.dir}" />
+        </javac>
+    </target>
+    
+    <target name="distrib-archive" depends="init, project.jarfile, copylibraries, docs">
+        <delete file="${build.dir}/${distrib.name}.zip" />
+        <zip destfile="${build.dir}/${distrib.name}.zip">
+            <zipfileset dir="${build.dir}" prefix="${distrib.name}/build">
+                <include name="*.jar" />
+            	<exclude name="ant*.jar" />
+            	<exclude name="junit*.jar" />
+             </zipfileset>
+             <zipfileset dir="${src.dir}" prefix="${distrib.name}/src">
+                <include name="**/*.java" />
+                <include name="**/*.html" />
+                <include name="**/*.txt" />
+                <include name="**/*.xml" />
+                <include name="**/*.properties" />
+             </zipfileset>
+             <zipfileset dir="${basedir}" prefix="${distrib.name}">
+                <include name="build.xml" />
+             </zipfileset>
+             <zipfileset dir="${basedir}" prefix="${distrib.name}">
+                <include name="readme.txt" />
+                <include name="*LICENSE*" />
+                <include name="NOTICE.txt" />
+             </zipfileset>
+             <zipfileset dir="${lib.dir}" prefix="${distrib.name}">
+                <include name="*LICENSE*" />
+             </zipfileset>
+        </zip>
+    </target>
+
+    <target name="copylibraries" depends="init">
+        <copy todir="${build.dir}">
+            <fileset dir="${lib.dir}">
+                <include name="*.jar" />
+            </fileset>
+        </copy>
+    </target>
+    
+    <target name="tests" depends="init, buildTest">
+        <junit printsummary="yes" haltonfailure="yes">
+          <classpath>
+            <pathelement location="${classes.dir}" />
+            <pathelement path="${java.class.path}" />
+          </classpath>
+        
+          <formatter type="plain" />
+        
+          <batchtest fork="yes" todir="${junit.reports.dir}">
+            <fileset dir="${test.src.dir}">
+              <include name="**/*Test*.java" />
+              <exclude name="**/AllTests.java" />
+            </fileset>
+          </batchtest>
+        </junit>
+    </target>
+    
+    <target name="distrib" depends="init, distrib-archive">
+    </target>
+            
+</project>

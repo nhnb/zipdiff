@@ -1,0 +1,6 @@
+target
+maven.log
+velocity.log
+build
+bin
+junit-reports
