@@ -96,17 +96,7 @@ public class ZipDiffTask extends Task {
 
     protected void writeDestFile(Differences d) throws java.io.IOException {
         String destfilename = getDestFile();
-
-        Builder builder = null;
-
-        if (destfilename.endsWith(".html")) {
-            builder = new HtmlBuilder();
-        } else if (destfilename.endsWith(".xml")) {
-            builder = new XmlBuilder();
-        } else {
-            builder = new TextBuilder();
-        }
-
+        Builder builder = BuilderFactory.create(destfilename);
         builder.build(destfilename, d);
     }
 

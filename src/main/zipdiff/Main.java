@@ -130,26 +130,11 @@ public class Main {
 
     }
 
-    private static void writeOutputFile(String filename, Differences d)
-    	throws java.io.IOException
-    {
-		Builder builder = null;
-		if (filename.endsWith(".html"))
-		{
-			builder = new HtmlBuilder();
-		}
-		else if (filename.endsWith(".xml"))
-		{
-			builder = new XmlBuilder();
-		}
-		else 
-		{
-			builder = new TextBuilder();
-		}
-		builder.build(filename, d);
-		
+    private static void writeOutputFile(String filename, Differences d) throws java.io.IOException {
+        Builder builder = BuilderFactory.create(filename);
+        builder.build(filename, d);
     }
- 
+
 	/**
 	 * 
 	 * The command line interface to zipdiff utility
