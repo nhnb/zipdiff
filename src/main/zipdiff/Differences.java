@@ -4,10 +4,7 @@
  */
 package zipdiff;
 
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.zip.ZipEntry;
 
 /**
@@ -16,10 +13,10 @@ import java.util.zip.ZipEntry;
  * @author Sean C. Sullivan
  */
 public class Differences {
-    private final Map added = new TreeMap();
-    private final Map removed = new TreeMap();
-    private final Map changed = new TreeMap();
-    private final Map ignored = new TreeMap();
+    private final Map added = new java.util.HashMap();
+    private final Map removed = new java.util.HashMap();
+    private final Map changed = new java.util.HashMap();
+    private final Map ignored = new java.util.HashMap();
     private String filename1;
     private String filename2;
 
