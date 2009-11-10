@@ -33,6 +33,9 @@ public class BuilderFactory {
         } else if (filename.endsWith(".xml")) {
             builder = new XmlBuilder();
 
+        } else if (filename.endsWith(".zip")) {
+            builder = new ZipBuilder();
+
         } else {
             System.err.println("Unknown extension, using text output");
             builder = new TextBuilder();
