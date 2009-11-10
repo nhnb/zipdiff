@@ -20,12 +20,19 @@ public class BuilderFactory {
      */
     public static Builder create(String filename) {
         Builder builder = null;
-        if (filename.endsWith(".html")) {
+
+        if ((filename == null) || filename.equals("-")) {
+            builder = new TextBuilder();
+
+        } else if (filename.endsWith(".html")) {
             builder = new HtmlBuilder();
+
         } else if (filename.endsWith(".txt")) {
             builder = new TextBuilder();
+
         } else if (filename.endsWith(".xml")) {
             builder = new XmlBuilder();
+
         } else {
             System.err.println("Unknown extension, using text output");
             builder = new TextBuilder();

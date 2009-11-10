@@ -15,16 +15,19 @@ import java.io.*;
  * 
  */
 public abstract class AbstractBuilder
-	implements Builder
+    implements Builder
 {
-	public void build(String filename, Differences d) throws IOException
-	{
-		FileOutputStream fos = null;
-		
-		fos = new FileOutputStream(filename);
-		build(fos, d);
-		fos.flush();
-	}
-	
-	public abstract void build(OutputStream out, Differences d);
+    public void build(String filename, Differences d) throws IOException
+    {
+        OutputStream os = null;
+        if ((filename == null) || filename.equals("-")) {
+            os = System.out;
+        } else {
+            os = new FileOutputStream(filename);
+        }
+        build(os, d);
+        os.flush();
+    }
+    
+    public abstract void build(OutputStream out, Differences d);
 }
