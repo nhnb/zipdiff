@@ -276,7 +276,7 @@ public class DifferenceCalculator {
             zipEntryMap.put(name, zipEntry);
 
             if (!zipEntry.isDirectory() && isZipFile(name)) {
-                processEmbeddedZipFile(name + "/", is, zipEntryMap);
+                processEmbeddedZipFile(name + "!", is, zipEntryMap);
             }
         }
     }
