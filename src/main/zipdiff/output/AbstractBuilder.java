@@ -23,7 +23,7 @@ public abstract class AbstractBuilder
 		
 		fos = new FileOutputStream(filename);
 		build(fos, d);
-		fos.close();
+		fos.flush();
 	}
 	
 	public abstract void build(OutputStream out, Differences d);
