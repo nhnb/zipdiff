@@ -1,27 +1,37 @@
 package zipdiff;
 
-import java.util.*;
-import java.util.zip.ZipInputStream;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.*;
-import java.io.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+import java.util.zip.ZipInputStream;
+
+import zipdiff.util.StringUtil;
 
 /**
  * Checks and compiles differences between two zip files.
  * It also has the ability to exclude entries from the comparison
  * based on a regular expression.
- * 
+ *
  * @author Sean C. Sullivan
  */
 public class DifferenceCalculator {
 
-    private Logger logger = Logger.getLogger(getClass().getName());
+    private final Logger logger = Logger.getLogger(getClass().getName());
 
-    private ZipFile file1;
-    private ZipFile file2;
+    private final ZipFile file1;
+    private final ZipFile file2;
     private int numberOfPrefixesToSkip1 = 0;
     private int numberOfPrefixesToSkip2 = 0;
     private boolean ignoreTimestamps = false;
@@ -73,7 +83,7 @@ public class DifferenceCalculator {
 	}
 
     /**
-     * 
+     *
      * @param Set A set of regular expressions that when matched against a ZipEntry
      * then that ZipEntry will be ignored from the comparison.
      * @see java.util.regex
@@ -101,7 +111,7 @@ public class DifferenceCalculator {
 
     /**
      * returns true if fileToIgnorePattern matches the filename given.
-     * @param filepath 
+     * @param filepath
      * @param filename The name of the file to check to see if it should be ignored.
      * @return true if the file should be ignored.
      */
@@ -232,7 +242,7 @@ public class DifferenceCalculator {
      * Will place ZipEntries for a given ZipEntry into the given Map. More ZipEntries will result
      * if zipEntry is itself a ZipFile. All embedded ZipFiles will be processed with their names
      * prefixed onto the names of their ZipEntries.
-     * @param prefix The prefix of the ZipEntry that should be added to the key. Typically used 
+     * @param prefix The prefix of the ZipEntry that should be added to the key. Typically used
      * when processing embedded ZipFiles. The name of the embedded ZipFile would be the prefix of
      * all the embedded ZipEntries.
      * @param zipEntry The ZipEntry to place into the Map. If it is a ZipFile then all its ZipEntries
@@ -252,7 +262,7 @@ public class DifferenceCalculator {
      * Will place ZipEntries for a given ZipEntry into the given Map. More ZipEntries will result
      * if zipEntry is itself a ZipFile. All embedded ZipFiles will be processed with their names
      * prefixed onto the names of their ZipEntries.
-     * @param prefix The prefix of the ZipEntry that should be added to the key. Typically used 
+     * @param prefix The prefix of the ZipEntry that should be added to the key. Typically used
      * when processing embedded ZipFiles. The name of the embedded ZipFile would be the prefix of
      * all the embedded ZipEntries.
      * @param zipEntry The ZipEntry to place into the Map. If it is a ZipFile then all its ZipEntries
@@ -267,7 +277,7 @@ public class DifferenceCalculator {
         if (ignoreThisFile(prefix, zipEntry.getName())) {
 			logger.log(Level.FINE, "ignoring file: " + zipEntry.getName());
         } else {
-            String name = removePrefix(prefix + zipEntry.getName(), p);
+            String name = StringUtil.removeDirectoryPrefix(prefix + zipEntry.getName(), p);
             if ((name == null) || name.equals("")) {
                 return;
             }
@@ -281,16 +291,7 @@ public class DifferenceCalculator {
         }
     }
 
-    String removePrefix(String name, int p) {
-        int pos = 0;
-        for (int i = 0; i < p; i++) {
-            pos = name.indexOf("/", pos) + 1;
-        }
-        if (pos < 0) {
-            return null;
-        }
-        return name.substring(pos);
-    }
+
 
     protected void processEmbeddedZipFile(String prefix, InputStream is, Map m) throws java.io.IOException {
         ZipInputStream zis = new ZipInputStream(is);
@@ -338,7 +339,7 @@ public class DifferenceCalculator {
 
     /**
      * Calculates all the differences between two zip files.
-     * It builds up the 2 maps of ZipEntries for the two files 
+     * It builds up the 2 maps of ZipEntries for the two files
      * and then compares them.
      * @param zf1 The first ZipFile to compare
      * @param zf2 The second ZipFile to compare
@@ -352,7 +353,7 @@ public class DifferenceCalculator {
 
     /**
      * Calculates all the differences between two zip files.
-     * It builds up the 2 maps of ZipEntries for the two files 
+     * It builds up the 2 maps of ZipEntries for the two files
      * and then compares them.
      * @param zf1 The first ZipFile to compare
      * @param zf2 The second ZipFile to compare
@@ -370,7 +371,7 @@ public class DifferenceCalculator {
 
     /**
      * Given two Maps of ZipEntries it will generate a Differences of all the
-     * differences found between the two maps. 
+     * differences found between the two maps.
      * @return All the differences found between the two maps
      */
     protected Differences calculateDifferences(Map m1, Map m2) {
@@ -449,9 +450,9 @@ public class DifferenceCalculator {
     {
     	ignoreCVSFiles = b;
     }
-    
+
     /**
-     * 
+     *
      * @return all the differences found between the two zip files.
      * @throws java.io.IOException
      */
