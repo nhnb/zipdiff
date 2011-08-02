@@ -29,6 +29,13 @@ public class ZipBuilder extends AbstractBuilder {
 
 	private final Set filenames = new TreeSet();
 
+	/**
+	 * builds the output
+	 *
+	 * @param out OutputStream to write to
+	 * @param d differences
+	 */
+	@Override
 	public void build(OutputStream out, Differences d) {
 		differences = d;
 		try {

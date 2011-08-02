@@ -18,10 +18,19 @@ import zipdiff.Differences;
  */
 public abstract class AbstractBuilder implements Builder {
 
+	/** number of directory prefixes to skip in the output file */
 	protected int numberOfOutputPrefixesToSkip;
 
-	public void build(String filename, int numberOfOutputPrefixesToSkip, Differences d) throws IOException {
-		this.numberOfOutputPrefixesToSkip = numberOfOutputPrefixesToSkip;
+	/**
+	 * builds the output
+	 *
+	 * @param filename name of output file
+	 * @param numberOfPrefixesToSkip number of directory prefixes to skip
+	 * @param d differences
+	 * @throws IOException in case of an input/output error
+	 */
+	public void build(String filename, int numberOfPrefixesToSkip, Differences d) throws IOException {
+		this.numberOfOutputPrefixesToSkip = numberOfPrefixesToSkip;
 		OutputStream os = null;
 		if ((filename == null) || filename.equals("-")) {
 			os = System.out;
@@ -32,5 +41,11 @@ public abstract class AbstractBuilder implements Builder {
 		os.flush();
 	}
 
+	/**
+	 * builds the output
+	 *
+	 * @param out OutputStream to write to
+	 * @param d differences
+	 */
 	public abstract void build(OutputStream out, Differences d);
 }

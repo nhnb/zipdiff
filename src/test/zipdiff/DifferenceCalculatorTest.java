@@ -48,6 +48,7 @@ public class DifferenceCalculatorTest extends TestCase {
 	private static String testJarOneEntryB1Filename;
 
 	private static String testJarOneEntryAContentsChangedFilename;
+
 	{
 		testDirPathName = System.getProperty(SYSTEM_TMP_DIR_PROPERTY);
 		if (testDirPathName == null) {
@@ -61,6 +62,7 @@ public class DifferenceCalculatorTest extends TestCase {
 
 	/**
 	 * Create a jar with only one entry in it. That entry being A
+	 *
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
@@ -85,6 +87,7 @@ public class DifferenceCalculatorTest extends TestCase {
 
 	/**
 	 * Create a jar with only one entry in it. That entry being A
+	 *
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
@@ -109,6 +112,7 @@ public class DifferenceCalculatorTest extends TestCase {
 
 	/**
 	 * Create a jar with only one entry in it. That entry being A
+	 *
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
@@ -139,6 +143,7 @@ public class DifferenceCalculatorTest extends TestCase {
 
 	/**
 	 * Create a jar with only one entry in it. That entry being A
+	 *
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
@@ -162,7 +167,7 @@ public class DifferenceCalculatorTest extends TestCase {
 	}
 
 
-	/*
+	/**
 	 * Test for Differences calculateDifferences(ZipFile, ZipFile)
 	 * with the same file - no differences should be found
 	 */
@@ -182,7 +187,7 @@ public class DifferenceCalculatorTest extends TestCase {
 
 	}
 
-	/*
+	/**
 	 * Test for Differences calculateDifferences(ZipFile, ZipFile)
 	 */
 	public void testCalculateDifferencesZipsSameEntries() throws FileNotFoundException, IOException {
@@ -201,7 +206,7 @@ public class DifferenceCalculatorTest extends TestCase {
 		exerciseOutputBuilders(differences);
 	}
 
-	/*
+	/**
 	 * Test for Differences calculateDifferences(ZipFile, ZipFile)
 	 * Test that the differences between two zips with A in one and B in the second.
 	 * A will have been removed and B will have been added.
@@ -224,7 +229,7 @@ public class DifferenceCalculatorTest extends TestCase {
 	}
 
 
-	/*
+	/**
 	 * Test for Differences calculateDifferences(ZipFile, ZipFile)
 	 * Test that the differences between two zips with A in one and A in the second with different content.
 	 * A will have been removed and B will have been added.

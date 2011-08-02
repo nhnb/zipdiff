@@ -5,6 +5,8 @@
  */
 package zipdiff.ant;
 
+import java.io.IOException;
+
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 
@@ -114,20 +116,42 @@ public class ZipDiffTask extends Task {
 
 	}
 
-	protected void writeDestFile(Differences d) throws java.io.IOException {
+	/**
+	 * writes the output file
+	 *
+	 * @param d set of Differences
+	 * @throws IOException
+	 */
+	protected void writeDestFile(Differences d) throws IOException {
 		String destfilename = getDestFile();
 		Builder builder = BuilderFactory.create(destfilename);
 		builder.build(destfilename, numberOfOutputPrefixesToSkip, d);
 	}
 
+	/**
+	 * gets the name of the target file
+	 *
+	 * @return target file
+	 */
 	public String getDestFile() {
 		return destfile;
 	}
 
+	/**
+	 * sets the name of the target file
+	 *
+	 * @param name filename
+	 */
 	public void setDestFile(String name) {
 		destfile = name;
 	}
 
+	/**
+	 * calculates the differences
+	 *
+	 * @return set of Differences
+	 * @throws BuildException in case of an input/output error
+	 */
 	protected Differences calculateDifferences() throws BuildException {
 		DifferenceCalculator calculator;
 
@@ -144,13 +168,18 @@ public class ZipDiffTask extends Task {
 			// todo : calculator.setFilenamesToIgnore(patterns);
 
 			d = calculator.getDifferences();
-		} catch (java.io.IOException ex) {
+		} catch (IOException ex) {
 			throw new BuildException(ex);
 		}
 
 		return d;
 	}
 
+	/**
+	 * validates the parameters
+	 *
+	 * @throws BuildException in case of invalid parameters
+	 */
 	protected void validate() throws BuildException {
 		if ((filename1 == null) || (filename1.length() < 1)) {
 			throw new BuildException("filename1 is required");

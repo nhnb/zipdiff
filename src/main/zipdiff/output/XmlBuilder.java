@@ -21,8 +21,14 @@ import zipdiff.Differences;
  */
 public class XmlBuilder extends AbstractBuilder {
 
+	/**
+	 * builds the output
+	 *
+	 * @param out OutputStream to write to
+	 * @param d differences
+	 */
 	@Override
-    public void build(OutputStream out, Differences d) {
+	public void build(OutputStream out, Differences d) {
 		PrintWriter pw = new PrintWriter(out);
 
 		pw.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
@@ -54,6 +60,12 @@ public class XmlBuilder extends AbstractBuilder {
 		pw.flush();
 	}
 
+	/**
+	 * writes the list of added files
+	 *
+	 * @param pw    write to write to
+	 * @param added set of added files
+	 */
 	protected void writeAdded(PrintWriter pw, Set added) {
 		Iterator iter = added.iterator();
 		while (iter.hasNext()) {
@@ -65,6 +77,12 @@ public class XmlBuilder extends AbstractBuilder {
 
 	}
 
+	/**
+	 * writes the list of removed files
+	 *
+	 * @param pw    write to write to
+	 * @param removed set of removed files
+	 */
 	protected void writeRemoved(PrintWriter pw, Set removed) {
 		Iterator iter = removed.iterator();
 		while (iter.hasNext()) {
@@ -75,6 +93,12 @@ public class XmlBuilder extends AbstractBuilder {
 		}
 	}
 
+	/**
+	 * writes the list of modified files
+	 *
+	 * @param pw    write to write to
+	 * @param changed set of modified files
+	 */
 	protected void writeChanged(PrintWriter pw, Set changed) {
 		Iterator iter = changed.iterator();
 		while (iter.hasNext()) {

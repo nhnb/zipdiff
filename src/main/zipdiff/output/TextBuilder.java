@@ -17,6 +17,12 @@ import zipdiff.Differences;
  */
 public class TextBuilder extends AbstractBuilder {
 
+	/**
+	 * builds the output
+	 *
+	 * @param out OutputStream to write to
+	 * @param d differences
+	 */
 	@Override
 	public void build(OutputStream out, Differences d) {
 		PrintWriter pw = new PrintWriter(out);

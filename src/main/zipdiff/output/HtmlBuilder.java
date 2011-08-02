@@ -19,6 +19,12 @@ import zipdiff.Differences;
  */
 public class HtmlBuilder extends AbstractBuilder {
 
+	/**
+	 * builds the output
+	 *
+	 * @param out OutputStream to write to
+	 * @param d differences
+	 */
 	@Override
 	public void build(OutputStream out, Differences d) {
 		PrintWriter pw = new PrintWriter(out);
@@ -66,18 +72,43 @@ public class HtmlBuilder extends AbstractBuilder {
 
 	}
 
+	/**
+	 * writes the list of added files
+	 *
+	 * @param pw    write to write to
+	 * @param added set of added files
+	 */
 	protected void writeAdded(PrintWriter pw, Set added) {
 		writeDiffSet(pw, "Added", added);
 	}
 
+	/**
+	 * writes the list of removed files
+	 *
+	 * @param pw    write to write to
+	 * @param removed set of removed files
+	 */
 	protected void writeRemoved(PrintWriter pw, Set removed) {
 		writeDiffSet(pw, "Removed", removed);
 	}
 
+	/**
+	 * writes the list of modified files
+	 *
+	 * @param pw    write to write to
+	 * @param changed set of modified files
+	 */
 	protected void writeChanged(PrintWriter pw, Set changed) {
 		writeDiffSet(pw, "Changed", changed);
 	}
 
+	/**
+	 * writes a set of differences
+	 *
+	 * @param pw    write to write to
+	 * @param name  heading
+	 * @param s     set
+	 */
 	protected void writeDiffSet(PrintWriter pw, String name, Set s) {
 		pw.println("<TABLE CELLSPACING=\"1\" CELLPADDING=\"3\" WIDTH=\"100%\" BORDER=\"0\">");
 		pw.println("<tr>");
@@ -104,6 +135,11 @@ public class HtmlBuilder extends AbstractBuilder {
 
 	}
 
+	/**
+	 * generates the style-html-tag.
+	 *
+	 * @return content of style-tag
+	 */
 	protected String getStyleTag() {
 		StringBuffer sb = new StringBuffer();
 
