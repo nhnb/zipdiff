@@ -5,7 +5,7 @@
  */
 package zipdiff.output;
 
-import java.io.OutputStream;
+import java.io.IOException;
 
 import zipdiff.Differences;
 
@@ -16,7 +16,14 @@ import zipdiff.Differences;
  * @author Sean C. Sullivan
  */
 public interface Builder {
-	public void build(OutputStream out, Differences d);
 
-	public void build(String filename, int numberOfOutputPrefixesToSkip, Differences d) throws java.io.IOException;
+	/**
+	 * builds the output
+	 *
+	 * @param filename name of output file
+	 * @param numberOfOutputPrefixesToSkip number of directory prefixes to skip
+	 * @param d differences
+	 * @throws IOException in case of an input/output error
+	 */
+	public void build(String filename, int numberOfOutputPrefixesToSkip, Differences d) throws IOException;
 }

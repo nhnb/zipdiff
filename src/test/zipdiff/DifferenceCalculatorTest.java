@@ -16,7 +16,7 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarOutputStream;
 
 import junit.framework.TestCase;
-import zipdiff.output.Builder;
+import zipdiff.output.AbstractBuilder;
 import zipdiff.output.HtmlBuilder;
 import zipdiff.output.TextBuilder;
 import zipdiff.output.XmlBuilder;
@@ -40,7 +40,7 @@ public class DifferenceCalculatorTest extends TestCase {
 	private static String testDirPathName;
 
 	// naming convention The Capital letter denotes the entry so A will be the same as A
-	// OneEntry denotes that the jar has one entry 
+	// OneEntry denotes that the jar has one entry
 	private static String testJarOneEntryA1Filename;
 
 	private static String testJarOneEntryA2Filename;
@@ -252,7 +252,7 @@ public class DifferenceCalculatorTest extends TestCase {
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-		Builder b = new HtmlBuilder();
+		AbstractBuilder b = new HtmlBuilder();
 		b.build(baos, differences);
 
 		assertTrue(baos.size() > 0);
@@ -263,7 +263,7 @@ public class DifferenceCalculatorTest extends TestCase {
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-		Builder b = new XmlBuilder();
+		AbstractBuilder b = new XmlBuilder();
 		b.build(baos, differences);
 
 		assertTrue(baos.size() > 0);
@@ -274,7 +274,7 @@ public class DifferenceCalculatorTest extends TestCase {
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-		Builder b = new TextBuilder();
+		AbstractBuilder b = new TextBuilder();
 		b.build(baos, differences);
 
 		assertTrue(baos.size() > 0);
