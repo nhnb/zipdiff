@@ -165,8 +165,14 @@ public class Main {
 
             DifferenceCalculator calc = new DifferenceCalculator(f1, f2);
 
-            int numberOfPrefixesToSkip1 = Integer.parseInt(line.getOptionValue(OPTION_SKIP_PREFIX1));
-            int numberOfPrefixesToSkip2 = Integer.parseInt(line.getOptionValue(OPTION_SKIP_PREFIX2));
+            int numberOfPrefixesToSkip1 = 0;
+            if (line.getOptionValue(OPTION_SKIP_PREFIX1) != null) {
+                numberOfPrefixesToSkip1 = Integer.parseInt(line.getOptionValue(OPTION_SKIP_PREFIX1));
+            }
+            int numberOfPrefixesToSkip2 = 0;
+            if (line.getOptionValue(OPTION_SKIP_PREFIX2) != null) {
+                numberOfPrefixesToSkip2 = Integer.parseInt(line.getOptionValue(OPTION_SKIP_PREFIX2));
+            }
             calc.setNumberOfPrefixesToSkip1(numberOfPrefixesToSkip1);
             calc.setNumberOfPrefixesToSkip2(numberOfPrefixesToSkip2);
 
