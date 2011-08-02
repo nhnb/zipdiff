@@ -19,5 +19,6 @@ import zipdiff.Differences;
  */
 public interface Builder {
 	public void build(OutputStream out, Differences d);
+
 	public void build(String filename, int numberOfOutputPrefixesToSkip, Differences d) throws java.io.IOException;
 }

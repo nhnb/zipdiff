@@ -15,14 +15,11 @@ import java.util.Map;
 import java.util.jar.JarEntry;
 import java.util.jar.JarOutputStream;
 
-import zipdiff.DifferenceCalculator;
-import zipdiff.Differences;
+import junit.framework.TestCase;
 import zipdiff.output.Builder;
 import zipdiff.output.HtmlBuilder;
 import zipdiff.output.TextBuilder;
 import zipdiff.output.XmlBuilder;
-
-import junit.framework.TestCase;
 
 /**
  *
@@ -30,24 +27,32 @@ import junit.framework.TestCase;
  * @author jastewart
  */
 public class DifferenceCalculatorTest extends TestCase {
-    private static String ENTRYA = "A";
+	private static String ENTRYA = "A";
+
 	private static String ENTRYB = "B";
+
 	private static String ENTRY_CVS = "CVS/Root";
-    public static final String SYSTEM_TMP_DIR_PROPERTY = "java.io.tmpdir";
+
+	public static final String SYSTEM_TMP_DIR_PROPERTY = "java.io.tmpdir";
+
 	public static final String TEST_DIR_POSTFIX = File.separator + "UnitTestsDifferenceCalculatorTest";
+
 	private static String testDirPathName;
+
 	// naming convention The Capital letter denotes the entry so A will be the same as A
 	// OneEntry denotes that the jar has one entry 
 	private static String testJarOneEntryA1Filename;
+
 	private static String testJarOneEntryA2Filename;
+
 	private static String testJarOneEntryB1Filename;
+
 	private static String testJarOneEntryAContentsChangedFilename;
 	{
-		testDirPathName = 
-				System.getProperty(SYSTEM_TMP_DIR_PROPERTY);
-		if(testDirPathName == null) {
+		testDirPathName = System.getProperty(SYSTEM_TMP_DIR_PROPERTY);
+		if (testDirPathName == null) {
 			testDirPathName = File.separator + "temp" + TEST_DIR_POSTFIX;
-		}	
+		}
 		testJarOneEntryA1Filename = testDirPathName + File.separator + "testJarOneEntryA1Filename.jar";
 		testJarOneEntryA2Filename = testDirPathName + File.separator + "testJarOneEntryA2Filename.jar";
 		testJarOneEntryB1Filename = testDirPathName + File.separator + "testJarOneEntryB1Filename.jar";
@@ -63,17 +68,14 @@ public class DifferenceCalculatorTest extends TestCase {
 		//  create a jar file with no duplicates
 		File testDir = new File(testDirPathName);
 		testDir.mkdirs();
-		JarOutputStream testJarOS =
-			new JarOutputStream(
-				new BufferedOutputStream(
-					new FileOutputStream(testJarOneEntryA1Filename)));
+		JarOutputStream testJarOS = new JarOutputStream(new BufferedOutputStream(new FileOutputStream(testJarOneEntryA1Filename)));
 
 		// ad an entry
 		JarEntry entry1 = new JarEntry(ENTRYA);
 		testJarOS.putNextEntry(entry1);
 		byte data1[] = new byte[2048];
-		for (int i=0; i < data1.length; i++) {
-			data1[i]='a';
+		for (int i = 0; i < data1.length; i++) {
+			data1[i] = 'a';
 		}
 		testJarOS.write(data1);
 
@@ -90,17 +92,14 @@ public class DifferenceCalculatorTest extends TestCase {
 		//  create a jar file with no duplicates
 		File testDir = new File(testDirPathName);
 		testDir.mkdirs();
-		JarOutputStream testJarOS =
-			new JarOutputStream(
-				new BufferedOutputStream(
-					new FileOutputStream(testJarOneEntryA2Filename)));
+		JarOutputStream testJarOS = new JarOutputStream(new BufferedOutputStream(new FileOutputStream(testJarOneEntryA2Filename)));
 
 		// ad an entry
 		JarEntry entry1 = new JarEntry(ENTRYA);
 		testJarOS.putNextEntry(entry1);
 		byte data1[] = new byte[2048];
-		for (int i=0; i < data1.length; i++) {
-			data1[i]='a';
+		for (int i = 0; i < data1.length; i++) {
+			data1[i] = 'a';
 		}
 		testJarOS.write(data1);
 
@@ -117,20 +116,17 @@ public class DifferenceCalculatorTest extends TestCase {
 		//  create a jar file with no duplicates
 		File testDir = new File(testDirPathName);
 		testDir.mkdirs();
-		JarOutputStream testJarOS =
-			new JarOutputStream(
-				new BufferedOutputStream(
-					new FileOutputStream(testJarOneEntryAContentsChangedFilename)));
+		JarOutputStream testJarOS = new JarOutputStream(new BufferedOutputStream(new FileOutputStream(testJarOneEntryAContentsChangedFilename)));
 
 		// add an entry
 		JarEntry entry1 = new JarEntry(ENTRYA);
 		testJarOS.putNextEntry(entry1);
 		byte data1[] = new byte[2048];
-		for (int i=0; i < data1.length; i++) {
-			data1[i]='a';
+		for (int i = 0; i < data1.length; i++) {
+			data1[i] = 'a';
 		}
 		// set a different content so that it will come up as changed
-		data1[data1.length-1] = 'b';
+		data1[data1.length - 1] = 'b';
 		testJarOS.write(data1);
 
 		// add another entry
@@ -150,17 +146,14 @@ public class DifferenceCalculatorTest extends TestCase {
 		//  create a jar file with no duplicates
 		File testDir = new File(testDirPathName);
 		testDir.mkdirs();
-		JarOutputStream testJarOS =
-			new JarOutputStream(
-				new BufferedOutputStream(
-					new FileOutputStream(testJarOneEntryB1Filename)));
+		JarOutputStream testJarOS = new JarOutputStream(new BufferedOutputStream(new FileOutputStream(testJarOneEntryB1Filename)));
 
 		// ad an entry
 		JarEntry entry1 = new JarEntry(ENTRYB);
 		testJarOS.putNextEntry(entry1);
 		byte data1[] = new byte[2048];
-		for (int i=0; i < data1.length; i++) {
-			data1[i]='b';
+		for (int i = 0; i < data1.length; i++) {
+			data1[i] = 'b';
 		}
 		testJarOS.write(data1);
 
@@ -184,11 +177,11 @@ public class DifferenceCalculatorTest extends TestCase {
 		assertTrue(removedEntries.size() == 0);
 		Map changedEntries = differences.getChanged();
 		assertTrue(changedEntries.size() == 0);
-		
+
 		exerciseOutputBuilders(differences);
-		
+
 	}
-    
+
 	/*
 	 * Test for Differences calculateDifferences(ZipFile, ZipFile)
 	 */
@@ -204,7 +197,7 @@ public class DifferenceCalculatorTest extends TestCase {
 		assertTrue(removedEntries.size() == 0);
 		Map changedEntries = differences.getChanged();
 		assertTrue(changedEntries.size() == 0);
-		
+
 		exerciseOutputBuilders(differences);
 	}
 
@@ -227,9 +220,9 @@ public class DifferenceCalculatorTest extends TestCase {
 		assertTrue(changedEntries.size() == 0);
 
 		exerciseOutputBuilders(differences);
-		
+
 	}
-	
+
 
 	/*
 	 * Test for Differences calculateDifferences(ZipFile, ZipFile)
@@ -249,49 +242,45 @@ public class DifferenceCalculatorTest extends TestCase {
 		assertTrue(removedEntries.size() == 0);
 		Map changedEntries = differences.getChanged();
 		assertTrue(changedEntries.containsKey("A"));
-		
+
 		exerciseOutputBuilders(differences);
-		
+
 	}
 
-	private void exerciseHtmlBuilder(Differences differences)
-	{
+	private void exerciseHtmlBuilder(Differences differences) {
 		assertNotNull(differences);
-		
+
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		
+
 		Builder b = new HtmlBuilder();
 		b.build(baos, differences);
-		
+
 		assertTrue(baos.size() > 0);
 	}
 
-	private void exerciseXmlBuilder(Differences differences)
-	{
+	private void exerciseXmlBuilder(Differences differences) {
 		assertNotNull(differences);
-		
+
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		
+
 		Builder b = new XmlBuilder();
 		b.build(baos, differences);
-		
+
 		assertTrue(baos.size() > 0);
 	}
 
-	private void exerciseTextBuilder(Differences differences)
-	{
+	private void exerciseTextBuilder(Differences differences) {
 		assertNotNull(differences);
-		
+
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		
+
 		Builder b = new TextBuilder();
 		b.build(baos, differences);
-		
+
 		assertTrue(baos.size() > 0);
 	}
-	
-	private void exerciseOutputBuilders(Differences differences)
-	{
+
+	private void exerciseOutputBuilders(Differences differences) {
 		assertNotNull(differences);
 		exerciseHtmlBuilder(differences);
 		exerciseXmlBuilder(differences);

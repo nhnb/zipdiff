@@ -25,88 +25,89 @@ import zipdiff.util.StringUtil;
  * @author Hendrik Brummermann, HIS GmbH
  */
 public class ZipBuilder extends AbstractBuilder {
-    private Differences differences;
-    private final Set filenames = new TreeSet();
+	private Differences differences;
 
-    public void build(OutputStream out, Differences d) {
-        differences = d;
-        try {
-            collectAddedFiles();
-            collectModifiedFiles();
-            copyEntries(out);
-        } catch (IOException e) {
-            System.err.println("Error while writing zip file: " + e);
-            e.printStackTrace();
-        }
-    }
+	private final Set filenames = new TreeSet();
 
-    /**
-     * collects all the files that have been added in the second zip archive
-     */
-    private void collectAddedFiles() {
-        Set entrySet = differences.getAdded().entrySet();
-        Iterator itr = entrySet.iterator();
-        while (itr.hasNext()) {
-            Map.Entry mapEntry = (Map.Entry) itr.next();
-            if (mapEntry.getKey().toString().indexOf("!") < 0) {
-                filenames.add(((ZipEntry) mapEntry.getValue()).getName());
-            }
-        }
-    }
+	public void build(OutputStream out, Differences d) {
+		differences = d;
+		try {
+			collectAddedFiles();
+			collectModifiedFiles();
+			copyEntries(out);
+		} catch (IOException e) {
+			System.err.println("Error while writing zip file: " + e);
+			e.printStackTrace();
+		}
+	}
 
-    /**
-     * collects all the files that have been added modified in the second zip archive
-     */
-    private void collectModifiedFiles() {
-        Set entrySet = differences.getChanged().entrySet();
-        Iterator itr = entrySet.iterator();
-        while (itr.hasNext()) {
-            Map.Entry mapEntry = (Map.Entry) itr.next();
-            if (mapEntry.getKey().toString().indexOf("!") < 0) {
-                filenames.add(((ZipEntry[]) mapEntry.getValue())[1].getName());
-            }
-        }
-    }
+	/**
+	 * collects all the files that have been added in the second zip archive
+	 */
+	private void collectAddedFiles() {
+		Set entrySet = differences.getAdded().entrySet();
+		Iterator itr = entrySet.iterator();
+		while (itr.hasNext()) {
+			Map.Entry mapEntry = (Map.Entry) itr.next();
+			if (mapEntry.getKey().toString().indexOf("!") < 0) {
+				filenames.add(((ZipEntry) mapEntry.getValue()).getName());
+			}
+		}
+	}
 
-    /**
-     * copies the zip entries (with data) from the second archive file to the output file.
-     *
-     * @param out output file
-     * @throws IOException in case of an input/output error
-     */
-    private void copyEntries(OutputStream out) throws IOException {
-        ZipOutputStream os = new ZipOutputStream(out);
-        ZipFile zipFile = new ZipFile(differences.getFilename2());
-        Iterator itr = filenames.iterator();
+	/**
+	 * collects all the files that have been added modified in the second zip archive
+	 */
+	private void collectModifiedFiles() {
+		Set entrySet = differences.getChanged().entrySet();
+		Iterator itr = entrySet.iterator();
+		while (itr.hasNext()) {
+			Map.Entry mapEntry = (Map.Entry) itr.next();
+			if (mapEntry.getKey().toString().indexOf("!") < 0) {
+				filenames.add(((ZipEntry[]) mapEntry.getValue())[1].getName());
+			}
+		}
+	}
 
-        while (itr.hasNext()) {
-            String filename = (String) itr.next();
-            ZipEntry zipEntry = zipFile.getEntry(filename);
-            InputStream is = zipFile.getInputStream(zipEntry);
-            ZipEntry z = new ZipEntry(StringUtil.removeDirectoryPrefix(filename, numberOfOutputPrefixesToSkip));
-            os.putNextEntry(z);
-            copyStream(is, os);
-            os.closeEntry();
-            is.close();
-        }
+	/**
+	 * copies the zip entries (with data) from the second archive file to the output file.
+	 *
+	 * @param out output file
+	 * @throws IOException in case of an input/output error
+	 */
+	private void copyEntries(OutputStream out) throws IOException {
+		ZipOutputStream os = new ZipOutputStream(out);
+		ZipFile zipFile = new ZipFile(differences.getFilename2());
+		Iterator itr = filenames.iterator();
 
-        zipFile.close();
-        os.close();
-    }
+		while (itr.hasNext()) {
+			String filename = (String) itr.next();
+			ZipEntry zipEntry = zipFile.getEntry(filename);
+			InputStream is = zipFile.getInputStream(zipEntry);
+			ZipEntry z = new ZipEntry(StringUtil.removeDirectoryPrefix(filename, numberOfOutputPrefixesToSkip));
+			os.putNextEntry(z);
+			copyStream(is, os);
+			os.closeEntry();
+			is.close();
+		}
 
-    /**
-     * copies data from an input stream to an output stream
-     *
-     * @param input InputStream
-     * @param output OutputStream
-     * @throws IOException in case of an input/output error
-     */
-    private void copyStream(InputStream input, OutputStream output) throws IOException {
-        byte buffer[] = new byte[4096];
-        int count = input.read(buffer);
-        while (count > -1) {
-            output.write(buffer, 0, count);
-            count = input.read(buffer);
-        }
-    }
+		zipFile.close();
+		os.close();
+	}
+
+	/**
+	 * copies data from an input stream to an output stream
+	 *
+	 * @param input InputStream
+	 * @param output OutputStream
+	 * @throws IOException in case of an input/output error
+	 */
+	private void copyStream(InputStream input, OutputStream output) throws IOException {
+		byte buffer[] = new byte[4096];
+		int count = input.read(buffer);
+		while (count > -1) {
+			output.write(buffer, 0, count);
+			count = input.read(buffer);
+		}
+	}
 }

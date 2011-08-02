@@ -21,143 +21,150 @@ import zipdiff.output.BuilderFactory;
  *
  */
 public class ZipDiffTask extends Task {
-    private String filename1;
-    private String filename2;
-    private int numberOfOutputPrefixesToSkip;
-    private int skipPrefixes1 = 0;
-    private int SkipPrefixes2 = 0;
-    private String destfile;
-    private boolean ignoreTimestamps = false;
-    private boolean ignoreCVSFiles = false;
-    private boolean compareCRCValues = true;
+	private String filename1;
 
-    public void setFilename1(String name) {
-        filename1 = name;
-    }
+	private String filename2;
 
-    public void setFilename2(String name) {
-        filename2 = name;
-    }
+	private int numberOfOutputPrefixesToSkip;
+
+	private int skipPrefixes1 = 0;
+
+	private int SkipPrefixes2 = 0;
+
+	private String destfile;
+
+	private boolean ignoreTimestamps = false;
+
+	private boolean ignoreCVSFiles = false;
+
+	private boolean compareCRCValues = true;
+
+	public void setFilename1(String name) {
+		filename1 = name;
+	}
+
+	public void setFilename2(String name) {
+		filename2 = name;
+	}
 
 
 
-    public int getNumberOfOutputPrefixesToSkip() {
-        return numberOfOutputPrefixesToSkip;
-    }
+	public int getNumberOfOutputPrefixesToSkip() {
+		return numberOfOutputPrefixesToSkip;
+	}
 
-    public void setNumberOfOutputPrefixesToSkip(int numberOfOutputPrefixesToSkip) {
-        this.numberOfOutputPrefixesToSkip = numberOfOutputPrefixesToSkip;
-    }
+	public void setNumberOfOutputPrefixesToSkip(int numberOfOutputPrefixesToSkip) {
+		this.numberOfOutputPrefixesToSkip = numberOfOutputPrefixesToSkip;
+	}
 
-    public int getSkipPrefixes1() {
-        return skipPrefixes1;
-    }
+	public int getSkipPrefixes1() {
+		return skipPrefixes1;
+	}
 
-    public void setSkipPrefixes1(int numberOfPrefixesToSkip1) {
-        this.skipPrefixes1 = numberOfPrefixesToSkip1;
-    }
+	public void setSkipPrefixes1(int numberOfPrefixesToSkip1) {
+		this.skipPrefixes1 = numberOfPrefixesToSkip1;
+	}
 
-    public int getSkipPrefixes2() {
-        return SkipPrefixes2;
-    }
+	public int getSkipPrefixes2() {
+		return SkipPrefixes2;
+	}
 
-    public void setSkipPrefixes2(int numberOfPrefixesToSkip2) {
-        this.SkipPrefixes2 = numberOfPrefixesToSkip2;
-    }
+	public void setSkipPrefixes2(int numberOfPrefixesToSkip2) {
+		this.SkipPrefixes2 = numberOfPrefixesToSkip2;
+	}
 
-    public void setIgnoreTimestamps(boolean b) {
-        ignoreTimestamps = b;
-    }
+	public void setIgnoreTimestamps(boolean b) {
+		ignoreTimestamps = b;
+	}
 
-    public boolean getIgnoreTimestamps() {
-        return ignoreTimestamps;
-    }
+	public boolean getIgnoreTimestamps() {
+		return ignoreTimestamps;
+	}
 
-    public void setIgnoreCVSFiles(boolean b)
-    {
-    	ignoreCVSFiles = b;
-    }
+	public void setIgnoreCVSFiles(boolean b) {
+		ignoreCVSFiles = b;
+	}
 
-    public boolean getIgnoreCVSFiles() {
-    	return ignoreCVSFiles;
-    }
+	public boolean getIgnoreCVSFiles() {
+		return ignoreCVSFiles;
+	}
 
-    public void setCompareCRCValues(boolean b) {
-        compareCRCValues = b;
-    }
+	public void setCompareCRCValues(boolean b) {
+		compareCRCValues = b;
+	}
 
-    public boolean getCompareCRCValues() {
-        return compareCRCValues;
-    }
+	public boolean getCompareCRCValues() {
+		return compareCRCValues;
+	}
 
-    public void execute() throws BuildException {
-        validate();
+	public void execute() throws BuildException {
+		validate();
 
-        // this.log("Filename1=" + filename1, Project.MSG_DEBUG);
-        // this.log("Filename2=" + filename2, Project.MSG_DEBUG);
-        // this.log("destfile=" + getDestFile(), Project.MSG_DEBUG);
+		// this.log("Filename1=" + filename1, Project.MSG_DEBUG);
+		// this.log("Filename2=" + filename2, Project.MSG_DEBUG);
+		// this.log("destfile=" + getDestFile(), Project.MSG_DEBUG);
 
-        Differences d = calculateDifferences();
+		Differences d = calculateDifferences();
 
-        try {
-            writeDestFile(d);
-        } catch (java.io.IOException ex) {
-            throw new BuildException(ex);
-        }
+		try {
+			writeDestFile(d);
+		} catch (java.io.IOException ex) {
+			throw new BuildException(ex);
+		}
 
-    }
+	}
 
-    protected void writeDestFile(Differences d) throws java.io.IOException {
-        String destfilename = getDestFile();
-        Builder builder = BuilderFactory.create(destfilename);
-        builder.build(destfilename, numberOfOutputPrefixesToSkip, d);
-    }
+	protected void writeDestFile(Differences d) throws java.io.IOException {
+		String destfilename = getDestFile();
+		Builder builder = BuilderFactory.create(destfilename);
+		builder.build(destfilename, numberOfOutputPrefixesToSkip, d);
+	}
 
-    public String getDestFile() {
-        return destfile;
-    }
+	public String getDestFile() {
+		return destfile;
+	}
 
-    public void setDestFile(String name) {
-        destfile = name;
-    }
+	public void setDestFile(String name) {
+		destfile = name;
+	}
 
-    protected Differences calculateDifferences() throws BuildException {
-        DifferenceCalculator calculator;
+	protected Differences calculateDifferences() throws BuildException {
+		DifferenceCalculator calculator;
 
-        Differences d = null;
+		Differences d = null;
 
-        try {
-            calculator = new DifferenceCalculator(filename1, filename2);
-            calculator.setNumberOfPrefixesToSkip1(skipPrefixes1);
-            calculator.setNumberOfPrefixesToSkip2(SkipPrefixes2);
-            calculator.setCompareCRCValues(getCompareCRCValues());
-            calculator.setIgnoreTimestamps(getIgnoreTimestamps());
-            calculator.setIgnoreCVSFiles(getIgnoreCVSFiles());
+		try {
+			calculator = new DifferenceCalculator(filename1, filename2);
+			calculator.setNumberOfPrefixesToSkip1(skipPrefixes1);
+			calculator.setNumberOfPrefixesToSkip2(SkipPrefixes2);
+			calculator.setCompareCRCValues(getCompareCRCValues());
+			calculator.setIgnoreTimestamps(getIgnoreTimestamps());
+			calculator.setIgnoreCVSFiles(getIgnoreCVSFiles());
 
-            // todo : calculator.setFilenamesToIgnore(patterns);
+			// todo : calculator.setFilenamesToIgnore(patterns);
 
-            d = calculator.getDifferences();
-        } catch (java.io.IOException ex) {
-            throw new BuildException(ex);
-        }
+			d = calculator.getDifferences();
+		} catch (java.io.IOException ex) {
+			throw new BuildException(ex);
+		}
 
-        return d;
-    }
+		return d;
+	}
 
-    protected void validate() throws BuildException {
-        if ((filename1 == null) || (filename1.length() < 1)) {
-            throw new BuildException("filename1 is required");
-        }
+	protected void validate() throws BuildException {
+		if ((filename1 == null) || (filename1.length() < 1)) {
+			throw new BuildException("filename1 is required");
+		}
 
-        if ((filename2 == null) || (filename2.length() < 1)) {
-            throw new BuildException("filename2 is required");
-        }
+		if ((filename2 == null) || (filename2.length() < 1)) {
+			throw new BuildException("filename2 is required");
+		}
 
-        String destinationfile = getDestFile();
+		String destinationfile = getDestFile();
 
-        if ((destinationfile == null) || (destinationfile.length() < 1)) {
-            throw new BuildException("destfile is required");
-        }
-    }
+		if ((destinationfile == null) || (destinationfile.length() < 1)) {
+			throw new BuildException("destfile is required");
+		}
+	}
 
 }
