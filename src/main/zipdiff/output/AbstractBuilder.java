@@ -1,24 +1,29 @@
 /*
- * 
- * 
+ *
+ *
  */
 package zipdiff.output;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+
 import zipdiff.Differences;
-import java.io.*;
 
 /**
- * 
+ *
  * @author Sean C. Sullivan
  *
- * 
- * 
+ *
+ *
  */
-public abstract class AbstractBuilder
-    implements Builder
-{
-    public void build(String filename, Differences d) throws IOException
+public abstract class AbstractBuilder implements Builder {
+
+    protected int numberOfOutputPrefixesToSkip;
+
+    public void build(String filename, int numberOfOutputPrefixesToSkip, Differences d) throws IOException
     {
+        this.numberOfOutputPrefixesToSkip = numberOfOutputPrefixesToSkip;
         OutputStream os = null;
         if ((filename == null) || filename.equals("-")) {
             os = System.out;
@@ -28,6 +33,6 @@ public abstract class AbstractBuilder
         build(os, d);
         os.flush();
     }
-    
+
     public abstract void build(OutputStream out, Differences d);
 }

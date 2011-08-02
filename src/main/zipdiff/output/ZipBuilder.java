@@ -1,6 +1,6 @@
-/* zipdiff is available under the terms of the 
+/* zipdiff is available under the terms of the
  * Apache License, version 2.0
- * 
+ *
  * Link: http://www.apache.org/licenses/
  */
 package zipdiff.output;
@@ -17,15 +17,16 @@ import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
 import zipdiff.Differences;
+import zipdiff.util.StringUtil;
 
 /**
  * creates a zip file with the new versions of files that have been added or modified
- * 
+ *
  * @author Hendrik Brummermann, HIS GmbH
  */
 public class ZipBuilder extends AbstractBuilder {
     private Differences differences;
-    private Set filenames = new TreeSet();
+    private final Set filenames = new TreeSet();
 
     public void build(OutputStream out, Differences d) {
         differences = d;
@@ -82,8 +83,8 @@ public class ZipBuilder extends AbstractBuilder {
             String filename = (String) itr.next();
             ZipEntry zipEntry = zipFile.getEntry(filename);
             InputStream is = zipFile.getInputStream(zipEntry);
-
-            os.putNextEntry(zipEntry);
+            ZipEntry z = new ZipEntry(StringUtil.removeDirectoryPrefix(filename, numberOfOutputPrefixesToSkip));
+            os.putNextEntry(z);
             copyStream(is, os);
             os.closeEntry();
             is.close();

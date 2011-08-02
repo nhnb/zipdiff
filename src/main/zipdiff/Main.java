@@ -1,6 +1,6 @@
 /*
- * 
- * 
+ *
+ *
  */
 package zipdiff;
 
@@ -8,16 +8,23 @@ import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
 
-import zipdiff.output.*;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.GnuParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
 
-import org.apache.commons.cli.*;
+import zipdiff.output.Builder;
+import zipdiff.output.BuilderFactory;
 
 /**
- * 
+ *
  * Provides a command line interface to zipdiff
- * 
+ *
  * @author Sean C. Sullivan, J.Stewart
- * 
+ *
  */
 public class Main {
     private static final int EXITCODE_ERROR = 2;
@@ -28,6 +35,7 @@ public class Main {
     private static final String OPTION_OUTPUT_FILE = "outputfile";
     private static final String OPTION_FILE1 = "file1";
     private static final String OPTION_FILE2 = "file2";
+    private static final String OPTION_SKIP_OUTPUT_PREFIXES = "skipoutputprefixes";
     private static final String OPTION_SKIP_PREFIX1 = "skipprefixes1";
     private static final String OPTION_SKIP_PREFIX2 = "skipprefixes2";
     private static final String OPTION_REGEX = "regex";
@@ -53,6 +61,10 @@ public class Main {
         Option file2 = new Option(OPTION_FILE2, OPTION_FILE2, true, "<filename> second file to compare");
         file2.setRequired(true);
 
+        Option numberOfOutputPrefixesToSkip = new Option(OPTION_SKIP_OUTPUT_PREFIXES, OPTION_SKIP_OUTPUT_PREFIXES, true, "<n> number of directory prefix to skip in the output file (if supported by outputter");
+        numberOfOutputPrefixesToSkip.setRequired(false);
+
+
         Option numberOfPrefixesToSkip1 = new Option(OPTION_SKIP_PREFIX1, OPTION_SKIP_PREFIX1, true, "<n> number of directory prefix to skip for the first file");
         numberOfPrefixesToSkip1.setRequired(false);
 
@@ -66,7 +78,7 @@ public class Main {
 					true,
 					"output filename");
         outputFileOption.setRequired(false);
-        
+
         Option regex =
             new Option(
                 OPTION_REGEX,
@@ -82,25 +94,26 @@ public class Main {
 				false,
 				"ignore CVS files");
         ignoreCVSFilesOption.setRequired(false);
-        
-		Option exitWithError = 
+
+		Option exitWithError =
 			new Option(
 				OPTION_EXIT_WITH_ERROR_ON_DIFF,
 				OPTION_EXIT_WITH_ERROR_ON_DIFF,
 				false,
 				"if a difference is found then exit with error " + EXITCODE_DIFF);
-				
-		Option verboseOption = 
+
+		Option verboseOption =
 			new Option(
 				OPTION_VERBOSE,
 				OPTION_VERBOSE,
 				false,
 				"verbose mode");
-		
+
         options.addOption(compareTS);
         options.addOption(compareCRC);
         options.addOption(file1);
         options.addOption(file2);
+        options.addOption(numberOfOutputPrefixesToSkip);
         options.addOption(numberOfPrefixesToSkip1);
         options.addOption(numberOfPrefixesToSkip2);
         options.addOption(regex);
@@ -130,17 +143,17 @@ public class Main {
 
     }
 
-    private static void writeOutputFile(String filename, Differences d) throws java.io.IOException {
+    private static void writeOutputFile(String filename, int numberOfOutputPrefixesToSkip, Differences d) throws java.io.IOException {
         Builder builder = BuilderFactory.create(filename);
-        builder.build(filename, d);
+        builder.build(filename, numberOfOutputPrefixesToSkip, d);
     }
 
 	/**
-	 * 
+	 *
 	 * The command line interface to zipdiff utility
-	 * 
+	 *
 	 * @param args The command line parameters
-	 * 
+	 *
 	 */
     public static void main(String[] args) {
         CommandLineParser parser = new GnuParser();
@@ -173,6 +186,11 @@ public class Main {
             if (line.getOptionValue(OPTION_SKIP_PREFIX2) != null) {
                 numberOfPrefixesToSkip2 = Integer.parseInt(line.getOptionValue(OPTION_SKIP_PREFIX2));
             }
+            int numberOfOutputPrefixesToSkip = 0;
+            if (line.getOptionValue(OPTION_SKIP_OUTPUT_PREFIXES) != null) {
+                numberOfOutputPrefixesToSkip = Integer.parseInt(line.getOptionValue(OPTION_SKIP_OUTPUT_PREFIXES));
+            }
+
             calc.setNumberOfPrefixesToSkip1(numberOfPrefixesToSkip1);
             calc.setNumberOfPrefixesToSkip2(numberOfPrefixesToSkip2);
 
@@ -191,7 +209,7 @@ public class Main {
             } else {
             	calc.setIgnoreCVSFiles(false);
             }
-            
+
             if (line.hasOption(OPTION_COMPARE_TIMESTAMPS)) {
                 calc.setIgnoreTimestamps(false);
             } else {
@@ -205,28 +223,28 @@ public class Main {
 
                 calc.setFilenameRegexToIgnore(regexSet);
             }
-            
+
             boolean exitWithErrorOnDiff = false;
             if (line.hasOption(OPTION_EXIT_WITH_ERROR_ON_DIFF)) {
             	exitWithErrorOnDiff = true;
             }
-            
+
             Differences d = calc.getDifferences();
-            
+
             if (line.hasOption(OPTION_OUTPUT_FILE))
             {
             	String outputFilename = line.getOptionValue(OPTION_OUTPUT_FILE);
-            	writeOutputFile(outputFilename, d);
+            	writeOutputFile(outputFilename, numberOfOutputPrefixesToSkip, d);
             }
-            
-            
+
+
             if (d.hasDifferences()) {
             	if (line.hasOption(OPTION_VERBOSE)) {
 					System.out.println(d);
 					System.out.println(d.getFilename1() + " and " + d.getFilename2() + " are different.");
             	}
                 if (exitWithErrorOnDiff) {
-                	System.exit(EXITCODE_DIFF); 
+                	System.exit(EXITCODE_DIFF);
                 }
             } else {
                 System.out.println("No differences found.");

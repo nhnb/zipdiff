@@ -1,26 +1,29 @@
 /*
- * 
- * 
+ *
+ *
  */
 
 package zipdiff.ant;
 
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Task;
+
 import zipdiff.DifferenceCalculator;
 import zipdiff.Differences;
-import zipdiff.output.*;
-import org.apache.tools.ant.Task;
-import org.apache.tools.ant.BuildException;
+import zipdiff.output.Builder;
+import zipdiff.output.BuilderFactory;
 
 /**
- * 
- * 
+ *
+ *
  * @author Sean C. Sullivan
  *
- * 
+ *
  */
 public class ZipDiffTask extends Task {
     private String filename1;
     private String filename2;
+    private int numberOfOutputPrefixesToSkip;
     private int skipPrefixes1 = 0;
     private int SkipPrefixes2 = 0;
     private String destfile;
@@ -34,6 +37,16 @@ public class ZipDiffTask extends Task {
 
     public void setFilename2(String name) {
         filename2 = name;
+    }
+
+
+
+    public int getNumberOfOutputPrefixesToSkip() {
+        return numberOfOutputPrefixesToSkip;
+    }
+
+    public void setNumberOfOutputPrefixesToSkip(int numberOfOutputPrefixesToSkip) {
+        this.numberOfOutputPrefixesToSkip = numberOfOutputPrefixesToSkip;
     }
 
     public int getSkipPrefixes1() {
@@ -64,11 +77,11 @@ public class ZipDiffTask extends Task {
     {
     	ignoreCVSFiles = b;
     }
-    
+
     public boolean getIgnoreCVSFiles() {
     	return ignoreCVSFiles;
     }
-    
+
     public void setCompareCRCValues(boolean b) {
         compareCRCValues = b;
     }
@@ -97,7 +110,7 @@ public class ZipDiffTask extends Task {
     protected void writeDestFile(Differences d) throws java.io.IOException {
         String destfilename = getDestFile();
         Builder builder = BuilderFactory.create(destfilename);
-        builder.build(destfilename, d);
+        builder.build(destfilename, numberOfOutputPrefixesToSkip, d);
     }
 
     public String getDestFile() {
