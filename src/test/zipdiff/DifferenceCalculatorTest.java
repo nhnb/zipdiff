@@ -1,8 +1,8 @@
-/*
- * 
+/* zipdiff is available under the terms of the
+ * Apache License, version 2.0
  *
+ * Link: http://www.apache.org/licenses/
  */
-
 package zipdiff;
 
 import java.io.BufferedOutputStream;
@@ -22,7 +22,7 @@ import zipdiff.output.TextBuilder;
 import zipdiff.output.XmlBuilder;
 
 /**
- *
+ * tests for DifferenceCalculator
  *
  * @author jastewart
  */
@@ -40,7 +40,7 @@ public class DifferenceCalculatorTest extends TestCase {
 	private static String testDirPathName;
 
 	// naming convention The Capital letter denotes the entry so A will be the same as A
-	// OneEntry denotes that the jar has one entry 
+	// OneEntry denotes that the jar has one entry
 	private static String testJarOneEntryA1Filename;
 
 	private static String testJarOneEntryA2Filename;

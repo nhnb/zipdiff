@@ -1,6 +1,7 @@
-/*
+/* zipdiff is available under the terms of the
+ * Apache License, version 2.0
  *
- *
+ * Link: http://www.apache.org/licenses/
  */
 package zipdiff;
 
@@ -20,11 +21,9 @@ import zipdiff.output.Builder;
 import zipdiff.output.BuilderFactory;
 
 /**
- *
  * Provides a command line interface to zipdiff
  *
- * @author Sean C. Sullivan, J.Stewart
- *
+ * @author Sean C. Sullivan, J.Stewart, Hendrik Brummermann
  */
 public class Main {
 	private static final int EXITCODE_ERROR = 2;

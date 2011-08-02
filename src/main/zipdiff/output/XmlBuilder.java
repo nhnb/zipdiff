@@ -1,6 +1,7 @@
-/*
- * 
- * 
+/* zipdiff is available under the terms of the
+ * Apache License, version 2.0
+ *
+ * Link: http://www.apache.org/licenses/
  */
 package zipdiff.output;
 
@@ -12,15 +13,16 @@ import java.util.Set;
 import zipdiff.Differences;
 
 /**
- * 
+ *
  * Generates xml output for a Differences instance
- * 
+ *
  * @author Sean C. Sullivan
- * 
+ *
  */
 public class XmlBuilder extends AbstractBuilder {
 
-	public void build(OutputStream out, Differences d) {
+	@Override
+    public void build(OutputStream out, Differences d) {
 		PrintWriter pw = new PrintWriter(out);
 
 		pw.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");

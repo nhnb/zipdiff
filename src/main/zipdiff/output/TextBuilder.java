@@ -1,6 +1,7 @@
-/*
- * 
- * 
+/* zipdiff is available under the terms of the
+ * Apache License, version 2.0
+ *
+ * Link: http://www.apache.org/licenses/
  */
 package zipdiff.output;
 
@@ -10,11 +11,13 @@ import java.io.PrintWriter;
 import zipdiff.Differences;
 
 /**
- * 
- * @author Sean C. Sullivan
+ * creates a list of differences.
  *
+ * @author Sean C. Sullivan
  */
 public class TextBuilder extends AbstractBuilder {
+
+	@Override
 	public void build(OutputStream out, Differences d) {
 		PrintWriter pw = new PrintWriter(out);
 		pw.println(d.toString());

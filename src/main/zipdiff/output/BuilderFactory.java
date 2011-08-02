@@ -1,12 +1,12 @@
-/* zipdiff is available under the terms of the 
+/* zipdiff is available under the terms of the
  * Apache License, version 2.0
- * 
+ *
  * Link: http://www.apache.org/licenses/
  */
 package zipdiff.output;
 
 /**
- * creates builders
+ * creates builders based on the filename extension.
  *
  * @author Hendrik Brummermann, HIS GmbH
  */

@@ -1,9 +1,14 @@
+/* zipdiff is available under the terms of the
+ * Apache License, version 2.0
+ *
+ * Link: http://www.apache.org/licenses/
+ */
 package zipdiff.util;
 
 /**
  * String manipulation methods
  *
- * @author hendrik
+ * @author Hendrik Brummermann
  */
 public class StringUtil {
 	public static String removeDirectoryPrefix(String name, int p) {

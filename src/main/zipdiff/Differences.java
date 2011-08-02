@@ -1,6 +1,7 @@
-/*
- * 
- * 
+/* zipdiff is available under the terms of the
+ * Apache License, version 2.0
+ *
+ * Link: http://www.apache.org/licenses/
  */
 package zipdiff;
 
@@ -12,7 +13,7 @@ import java.util.zip.ZipEntry;
 
 /**
  * Used to keep track of difference between 2 zip files.
- * 
+ *
  * @author Sean C. Sullivan
  */
 public class Differences {
@@ -29,7 +30,7 @@ public class Differences {
 	private String filename2;
 
 	public Differences() {
-		// todo 
+		// todo
 	}
 
 	public void setFilename1(String filename) {
@@ -87,7 +88,8 @@ public class Differences {
 		return ((getChanged().size() > 0) || (getAdded().size() > 0) || (getRemoved().size() > 0));
 	}
 
-	public String toString() {
+	@Override
+    public String toString() {
 		StringBuffer sb = new StringBuffer();
 
 		if (added.size() == 1) {

@@ -1,3 +1,8 @@
+/* zipdiff is available under the terms of the
+ * Apache License, version 2.0
+ *
+ * Link: http://www.apache.org/licenses/
+ */
 package zipdiff;
 
 import java.io.File;
@@ -24,7 +29,7 @@ import zipdiff.util.StringUtil;
  * It also has the ability to exclude entries from the comparison
  * based on a regular expression.
  *
- * @author Sean C. Sullivan
+ * @author Sean C. Sullivan, Hendrik Brummermann
  */
 public class DifferenceCalculator {
 

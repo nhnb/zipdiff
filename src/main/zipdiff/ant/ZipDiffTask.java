@@ -1,8 +1,8 @@
-/*
+/* zipdiff is available under the terms of the
+ * Apache License, version 2.0
  *
- *
+ * Link: http://www.apache.org/licenses/
  */
-
 package zipdiff.ant;
 
 import org.apache.tools.ant.BuildException;
@@ -14,11 +14,10 @@ import zipdiff.output.Builder;
 import zipdiff.output.BuilderFactory;
 
 /**
+ * Ant task for running zipdiff from a build.xml file
  *
  *
  * @author Sean C. Sullivan
- *
- *
  */
 public class ZipDiffTask extends Task {
 	private String filename1;
@@ -97,6 +96,7 @@ public class ZipDiffTask extends Task {
 		return compareCRCValues;
 	}
 
+	@Override
 	public void execute() throws BuildException {
 		validate();
 
