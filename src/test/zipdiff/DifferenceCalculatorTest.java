@@ -40,7 +40,7 @@ public class DifferenceCalculatorTest extends TestCase {
 	private static String testDirPathName;
 
 	// naming convention The Capital letter denotes the entry so A will be the same as A
-	// OneEntry denotes that the jar has one entry
+	// OneEntry denotes that the jar has one entry 
 	private static String testJarOneEntryA1Filename;
 
 	private static String testJarOneEntryA2Filename;

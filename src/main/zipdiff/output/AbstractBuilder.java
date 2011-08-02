@@ -20,7 +20,6 @@ public abstract class AbstractBuilder implements Builder {
 
 	protected int numberOfOutputPrefixesToSkip;
 
-	@Override
 	public void build(String filename, int numberOfOutputPrefixesToSkip, Differences d) throws IOException {
 		this.numberOfOutputPrefixesToSkip = numberOfOutputPrefixesToSkip;
 		OutputStream os = null;
@@ -33,6 +32,5 @@ public abstract class AbstractBuilder implements Builder {
 		os.flush();
 	}
 
-	@Override
 	public abstract void build(OutputStream out, Differences d);
 }
